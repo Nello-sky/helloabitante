@@ -1,8 +1,6 @@
 package it.helloabitante.web.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import it.helloabitante.dao.DB_Mock;
 import it.helloabitante.model.Abitante;
 import it.helloabitante.service.MyServiceFactory;
+import it.helloabitante.service.abitante.AbitanteService;
 
 /**
  * Servlet implementation class ExecuteInsertAbitanteServlet
@@ -30,28 +29,43 @@ public class ExecuteInsertAbitanteServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Abitante> a = new ArrayList<>();
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String destinazione = null;
+		String messaggioErrore = "riempire tutti i campi";
+
+		AbitanteService abitanteServiceInstance = MyServiceFactory.getAbitanteServiceInstance();
+
 		Long idNuovoAbitante = DB_Mock.getNexIdAvailable();
 		String nomeDaPagina = request.getParameter("nomeInput");
 		String cognomeDaPagina = request.getParameter("cognomeInput");
-		
-		Abitante nuovoAbitante = new Abitante(idNuovoAbitante,nomeDaPagina,cognomeDaPagina,"a",11,"a");
+		String etaDaPagina = request.getParameter("etaInput");
+		String codiceFiscaleDaPagina = request.getParameter("codiceFiscaleInput");
+		String mottoDiVitaDaPagina = request.getParameter("mottoDiVitaInput");
+
+		Integer eta = null;
 		try {
-			a = MyServiceFactory.getAbitanteServiceInstance().listAll();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			eta = Integer.parseInt(etaDaPagina);
+		} catch (Exception ex) {
+
 		}
-		a.add(nuovoAbitante);
-		
-		request.setAttribute("listAbitantiAttributeName",a);
-		
-		
-		RequestDispatcher rd = request.getRequestDispatcher("results.jsp");
+
+		if (nomeDaPagina.isBlank()) {
+			request.setAttribute("messaggioDiErrore", messaggioErrore);
+			destinazione = "insert.jsp";
+		} else {
+			abitanteServiceInstance.inserisciNuovo(new Abitante(idNuovoAbitante, nomeDaPagina, cognomeDaPagina,
+					codiceFiscaleDaPagina, eta, mottoDiVitaDaPagina));
+
+			request.setAttribute("listAbitantiAttributeName", abitanteServiceInstance.listAll());
+
+			destinazione = "results.jsp";
+		}
+
+		RequestDispatcher rd = request.getRequestDispatcher(destinazione);
 		rd.forward(request, response);
-		
+
 	}
 
 }

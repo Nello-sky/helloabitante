@@ -18,19 +18,30 @@ public class AbitanteServiceImpl implements AbitanteService {
 		// abitanteDAO.setConnection(MyConnection.getConnection());
 		return abitanteDAO.findByNomeAndCognome(nome, cognome);
 	}
-	
+
 	public Abitante caricaSingolo(Long id) throws Exception {
 		return abitanteDAO.get(id);
 	}
 
 	@Override
-	public int inserisciNuovo(Abitante input) throws Exception {
-		return abitanteDAO.insert(input);
+	public int inserisciNuovo(Abitante input) {
+		try {
+			return abitanteDAO.insert(input);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+
+		}
 	}
 
 	@Override
-	public List<Abitante> listAll() throws Exception {
-		return abitanteDAO.list();
+	public List<Abitante> listAll() {
+		try {
+			return abitanteDAO.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 }

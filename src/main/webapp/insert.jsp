@@ -15,6 +15,16 @@
 		<label for="cognomeInputId">COGNOME:</label><br>
 		<input type="text" name="cognomeInput" id="cognomeInputId">
 		<br><br>
+		<label for="codiceFiscaleInputId">CODICE_FISCALE:</label><br>
+		<input type="text" name="codiceFiscaleInput" id="codiceFiscaleInputId">
+		<br><br>
+		<label for="etaInputId">ETA:</label><br>
+		<input type="text" name="etaInput" id="etaInputId">
+		<br><br>
+		<label for="mottoDiVitaInputId">MOTTO_DI_VITA:</label><br>
+		<input type="text" name="mottoDiVitaInput" id="mottoDiVitaInputId">
+		<br><br>
+		
 		<input type="submit" value="INSERT">
 	
 	</form>

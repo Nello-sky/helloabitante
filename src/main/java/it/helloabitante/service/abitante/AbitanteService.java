@@ -12,7 +12,7 @@ public interface AbitanteService {
 
 	public Abitante caricaSingolo(Long id) throws Exception;
 	
-	public int inserisciNuovo(Abitante input) throws Exception;
+	public int inserisciNuovo(Abitante input);
 	
-	public List<Abitante> listAll() throws Exception;
+	public List<Abitante> listAll() ;
 }
