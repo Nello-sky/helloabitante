@@ -33,7 +33,7 @@ public class ExecuteInsertAbitanteServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String destinazione = null;
-		String messaggioErrore = "riempire tutti i campi";
+		String messaggioDiErrore = "riempire tutti i campi";
 
 		AbitanteService abitanteServiceInstance = MyServiceFactory.getAbitanteServiceInstance();
 
@@ -51,8 +51,8 @@ public class ExecuteInsertAbitanteServlet extends HttpServlet {
 
 		}
 
-		if (nomeDaPagina.isBlank()) {
-			request.setAttribute("messaggioDiErrore", messaggioErrore);
+		if (nomeDaPagina.isBlank() || cognomeDaPagina.isBlank() || codiceFiscaleDaPagina.isBlank() || etaDaPagina.isBlank() || mottoDiVitaDaPagina.isBlank()) {
+			request.setAttribute("messaggioDiErrore", messaggioDiErrore);
 			destinazione = "insert.jsp";
 		} else {
 			abitanteServiceInstance.inserisciNuovo(new Abitante(idNuovoAbitante, nomeDaPagina, cognomeDaPagina,

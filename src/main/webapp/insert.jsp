@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<% if(request.getAttribute("messaggioDiErrore") != null){ %>
+		<p style="color: red;"><%=request.getAttribute("messaggioDiErrore") %></p>
+	<%  }else{ %>
+		Inserire dati da ricercare<br>
+	<%}    %>
+
 	<form action="ExecuteInsertAbitanteServlet" method="post">
 		<label for="nomeInput">NOME:</label><br>
 		<input type="text" name="nomeInput" id="nomeInputId">
