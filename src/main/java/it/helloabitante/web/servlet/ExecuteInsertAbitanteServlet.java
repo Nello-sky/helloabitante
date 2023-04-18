@@ -13,6 +13,7 @@ import it.helloabitante.dao.DB_Mock;
 import it.helloabitante.model.Abitante;
 import it.helloabitante.service.MyServiceFactory;
 import it.helloabitante.service.abitante.AbitanteService;
+import it.provaabitante.utility.UtilityForm;
 
 /**
  * Servlet implementation class ExecuteInsertAbitanteServlet
@@ -32,39 +33,35 @@ public class ExecuteInsertAbitanteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String destinazione = null;
-		String messaggioDiErrore = "riempire tutti i campi";
-
-		AbitanteService abitanteServiceInstance = MyServiceFactory.getAbitanteServiceInstance();
-
-		Long idNuovoAbitante = DB_Mock.getNexIdAvailable();
+		// binding
 		String nomeDaPagina = request.getParameter("nomeInput");
 		String cognomeDaPagina = request.getParameter("cognomeInput");
 		String etaDaPagina = request.getParameter("etaInput");
 		String codiceFiscaleDaPagina = request.getParameter("codiceFiscaleInput");
 		String mottoDiVitaDaPagina = request.getParameter("mottoDiVitaInput");
 
-		Integer eta = null;
-		try {
-			eta = Integer.parseInt(etaDaPagina);
-		} catch (Exception ex) {
+		Integer etaResult = UtilityForm.parseFromString(etaDaPagina);
 
-		}
+		Abitante abitanteInsert = new Abitante(nomeDaPagina, cognomeDaPagina, codiceFiscaleDaPagina, etaResult,
+				mottoDiVitaDaPagina);
 
-		if (nomeDaPagina.isBlank() || cognomeDaPagina.isBlank() || codiceFiscaleDaPagina.isBlank() || etaDaPagina.isBlank() || mottoDiVitaDaPagina.isBlank()) {
+		// validazioni
+		if (abitanteInsert.getNome().isBlank() || abitanteInsert.getCognome().isBlank() || abitanteInsert.getCodiceFiscale().isBlank()
+				|| abitanteInsert.getEta()==null || abitanteInsert.getMottoDiVita().isBlank()) {
+			String messaggioDiErrore = "riempire tutti i campi";
 			request.setAttribute("messaggioDiErrore", messaggioDiErrore);
-			destinazione = "insert.jsp";
-		} else {
-			abitanteServiceInstance.inserisciNuovo(new Abitante(idNuovoAbitante, nomeDaPagina, cognomeDaPagina,
-					codiceFiscaleDaPagina, eta, mottoDiVitaDaPagina));
-
-			request.setAttribute("listAbitantiAttributeName", abitanteServiceInstance.listAll());
-
-			destinazione = "results.jsp";
+			request.getRequestDispatcher("insert.jsp").forward(request, response);
+			return;
 		}
 
-		RequestDispatcher rd = request.getRequestDispatcher(destinazione);
-		rd.forward(request, response);
+		// Business
+		AbitanteService abitanteService = MyServiceFactory.getAbitanteServiceInstance();
+		abitanteService.inserisciNuovo(abitanteInsert);
+
+		request.setAttribute("listAbitantiAttributeName", abitanteService.listAll());
+
+		// forward
+		request.getRequestDispatcher("results.jsp").forward(request, response);
 
 	}
 

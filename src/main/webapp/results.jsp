@@ -44,7 +44,8 @@
 					<td><%=abitanteItem.getCognome() %></td>
 					<td>
 						<a href="ExecuteShowAbitanteServlet?idDaInviareComeParametro=<%=abitanteItem.getIdAbitante() %>">Dettaglio</a>
-						<a href="PreparaModificaServlet?idDaInviareComeParametro=<%=abitanteItem.getIdAbitante() %>">Modifica</a>
+						<a href="PrepareEditAbitanteServlet?idDaInviareComeParametro=<%=abitanteItem.getIdAbitante() %>">Modifica</a>
+						<a href="PrepareDeleteAbitanteDaServlet?idDaInviareComeParametro=<%=abitanteItem.getIdAbitante() %>">Cancella</a>
 					</td>
 				</tr>
 		<%	}%>

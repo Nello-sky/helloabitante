@@ -18,6 +18,17 @@ public class Abitante {
 		this.cognome = cognome;
 	}
 
+	public Abitante( String nome, String cognome, String codiceFiscale, Integer eta,
+			String mottoDiVita) {
+		super();
+		
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
+		this.eta = eta;
+		this.mottoDiVita = mottoDiVita;
+	}
+	
 	public Abitante(Long idAbitante, String nome, String cognome, String codiceFiscale, Integer eta,
 			String mottoDiVita) {
 		super();

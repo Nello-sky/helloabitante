@@ -19,8 +19,13 @@ public class AbitanteServiceImpl implements AbitanteService {
 		return abitanteDAO.findByNomeAndCognome(nome, cognome);
 	}
 
-	public Abitante caricaSingolo(Long id) throws Exception {
-		return abitanteDAO.get(id);
+	public Abitante caricaSingolo(Long id)  {
+		try {
+			return abitanteDAO.get(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -42,6 +47,27 @@ public class AbitanteServiceImpl implements AbitanteService {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void rimuovi(Long idAbitante) {
+		try {
+			abitanteDAO.delete(idAbitante);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void aggiorna(Abitante input) {
+		try {
+			abitanteDAO.update(input);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

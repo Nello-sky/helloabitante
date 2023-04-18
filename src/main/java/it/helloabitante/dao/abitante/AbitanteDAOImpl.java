@@ -9,7 +9,7 @@ import it.helloabitante.model.Abitante;
 
 public class AbitanteDAOImpl implements AbitanteDAO {
 
-	//questo è simbolico, MOCK appunto
+	// questo è simbolico, MOCK appunto
 	private EntityManagerMock entityManager;
 
 	@Override
@@ -32,7 +32,7 @@ public class AbitanteDAOImpl implements AbitanteDAO {
 		return LISTA;
 	}
 
-	@Override   //genera eccezzione se non presente id
+	@Override // genera eccezzione se non presente id
 	public Abitante get(Long id) throws Exception {
 		for (Abitante abitanteItem : DB_Mock.LISTA_ABITANTI) {
 			if (abitanteItem.getIdAbitante().equals(id))
@@ -43,8 +43,19 @@ public class AbitanteDAOImpl implements AbitanteDAO {
 
 	@Override
 	public int update(Abitante input) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+	
+		for (Abitante abitanteItem : DB_Mock.LISTA_ABITANTI) {
+			if (abitanteItem.getIdAbitante().equals(input.getIdAbitante())) {
+				abitanteItem.setNome(input.getNome());
+				abitanteItem.setCognome(input.getCognome());
+				abitanteItem.setCodiceFiscale(input.getCodiceFiscale());
+				abitanteItem.setEta(input.getEta());
+				abitanteItem.setMottoDiVita(input.getMottoDiVita());
+				result++;
+			}
+		}
+		return result;	
 	}
 
 	@Override
@@ -54,14 +65,25 @@ public class AbitanteDAOImpl implements AbitanteDAO {
 	}
 
 	@Override
-	public int delete(Long idToRemove) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int  delete(Long idToRemove) throws Exception {
+		List<Abitante> listaNuova = new ArrayList<>();
+		int result = 0;
+		for (Abitante abitanteItem : DB_Mock.LISTA_ABITANTI) {
+			if (!abitanteItem.getIdAbitante().equals(idToRemove))
+				listaNuova.add(abitanteItem);
+			else {
+				result++;
+			}
+		}
+		DB_Mock.LISTA_ABITANTI.clear();
+		DB_Mock.LISTA_ABITANTI.addAll(listaNuova);
+		return result;
 	}
 
 	@Override
 	public void setEntityManager(EntityManagerMock entityManager) {
 		this.entityManager = entityManager;
 	}
+
 
 }
